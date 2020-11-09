@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+{% load static %}
+{% load widget_tweaks %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="{% static '/style.css' %}">
+
+</head>
+
+<body>
+
+    <!-- partial:index.partial.html -->
+    <nav class="menu" tabindex="0" style="margin-top: 55px;">
+        <div class="smartphone-menu-trigger"></div>
+        <header class="avatar">
+            <img src="{% static "images/admin.png" %}" />
+            <br><br>
+            <h6>Admin</h6>
+            <h6>Welcome: {{user.username}} </h6>
+            <!-- <h2>{{request.user.first_name}}</h2> -->
+        </header>
+        <ul>
+          <li style="padding-left: 15px;" tabindex="0"><i style="margin-right: 8px; color: #fff;"
+                  class="fas fa-home"></i> <a style="color:white; text-decoration:none;"
+                  href="{% url 'admin_dashboard' %}"><span>Home</span></a> </li>
+          <li style="padding-left: 15px;" tabindex="0"><i style="margin-right: 8px; color: #fff;"
+                  class="fas fa-book"></i> <a style="color:white; text-decoration:none;"
+                  href="{% url 'book' %}"><span>Book</span></a></li>
+          <li style="padding-left: 15px;" tabindex="0"><i style="margin-right: 8px; color: #fff;"
+                  class="fas fa-book-open"></i><a style="color:white; text-decoration:none;"
+                  href="{% url 'issue_book' %}"><span>Issue Book</span></a></li>
+          <li style="padding-left: 15px;" tabindex="0"><i style="margin-right: 8px; color: #fff;"
+                  class="fas fa-users"></i><a style="color:white; text-decoration:none;"
+                  href="{% url 'student' %}"><span>Student Report</span></a></li>
+                  <li style="padding-left: 15px;" tabindex="0"><i style="margin-right: 8px; color: #fff;"
+                      class="fas fa-bell"></i><a style="color:white; text-decoration:none;"
+                      href="{% url 'return_book' %}"><span>Return Book</span></a></li>
+      </ul>
+    </nav>
+
+    <main>
+
+
+        <!-- nav start -->
+        <div class="bs-example">
+            <nav class="navbar navbar-expand-md  navbar-dark fixed-top" style="background:#337AB7;">
+                <a href="{% url 'index' %}" class="navbar-brand">Library Management</a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav" style=" margin-left: 90%;">
+
+                        <a href="{% url 'logout' %}" class="nav-item nav-link">Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- nav end -->
+
+
+
+        <br><br>
+
+        <!-- content start-->
+        {% block content %}
+
+        <!-- <div class="container_class text-center">
+            <h1>Hello Admin</h1>
+            <h6>In this page, you add and view book</h6>
+            <a href="" class="btn btn-primary">Add Book</a>
+            <a href="" class="btn btn-primary">View Book</a>
+        </div> -->
+
+        <div class="container justify-content-center text-center" style="margin-top: 50px;">
+            <h2>Issue Book</h2>
+            <form method="get" style="margin-top:50px">
+              <div class="row container justify-content-center text-center" class="">
+                <div class="form-group col-sm-4 col-md-3">
+                  {{ filter.form.studentID.label_tag }}
+                  {% render_field filter.form.studentID class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+                  {{ filter.form.barcode.label_tag }}
+                  {% render_field filter.form.barcode class="form-control" %}
+                </div>
+                
+                <div class="form-group col-sm-4 col-md-1">
+                  <button class="btn btn-primary" style="margin-top:30px; padding: 7px 20px;" type="submit" >Search</button>
+                </div>
+              </div>
+              
+            </form>  
+            {% if issues %}  
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <!-- <th>S.No</th> -->
+                  <th>Student</th>
+                  <th>Book</th>
+                  <th>Barcode</th>
+                  <th>StudentID</th>
+                  <th>IssueDate</th>
+                  <th>ExpiryDate</th>
+                  <!-- <th>Fine($)</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                {% for issue in filter.qs %}
+                <tr>
+                  <td>{{issue.studentname}}</td>
+                  <td>{{issue.bookname}}</td>
+                  <td>{{issue.barcode}}</td>                  
+                  <td>{{issue.studentID}}</td>
+                  <td>{{issue.issuedate}}</td>
+                  <td>{{issue.expirydate}}</td>
+                  <!-- <td>{{li.0}}</td> -->
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% else %}
+            <p>There are no books issued</p>
+            {% endif %}
+          </div>
+          
+        {% endblock content %}
+        <!-- content end-->
+
+        <br><br><br><br>
+        <!-- <footer>
+      <p>
+        <a id="ftr" href="https://facebook.com/sumit.luv/" class="fa fa-facebook"></a>
+        <a id="ftr" href="https://api.whatsapp.com/send?phone=919572181024&text=Hello%20Sumit.%0d%0aHow%20are%20you%20%3f%0d%0aI%20came%20from%20your%20website.&source=&data=#" class="fa fa-whatsapp"></a>
+        <a id="ftr" href="https://instagram.com/sumit.luv" class="fa fa-instagram"></a>
+        <a id="ftr" href="https://twitter.com/sumitkumar1503" class="fa fa-twitter"></a>
+      </p>
+
+      <br>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 col-sm-12">
+            <div style="color:#ffffff;" class="wow fadeInUp footer-copyright">
+              <p>Made in India <br>
+                Copyright &copy; 2020 LazyCoder </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer> -->
+
+    </main>
+    <!--
+  developed By : sumit kumar
+  facebook : fb.com/sumit.luv
+  youtube : youtube.com/lazycoders
+  -->
+
+</body>
+
+</html>

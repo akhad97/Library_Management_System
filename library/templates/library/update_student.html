@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="{% static '/style.css' %}">
+
+    <style type="text/css">
+      body {
+          background-color:#e9ecef;
+        font-family: 'Roboto', sans-serif;
+      }
+        .form-control {
+        border-color: #eee;
+            min-height: 41px;
+        box-shadow: none !important;
+      }
+        .form-control:focus {
+        border-color: #5cd3b4;
+      }
+        .form-control, .btn {
+            border-radius: 3px;
+        }
+      .signup-form {
+        width: 500px;
+        margin: 0 auto;
+        padding: 30px 0;
+      }
+        .signup-form h2 {
+        color: #333;
+            margin: 0 0 30px 0;
+        display: inline-block;
+        padding: 0 30px 10px 0;
+          border-bottom: 3px solid #ffffff;
+        }
+        .signup-form form {
+        color: #999;
+        border-radius: 3px;
+          margin-bottom: 15px;
+            background: #fff;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+      .signup-form .form-group {
+        margin-bottom: 20px;
+      }
+      .signup-form label {
+        font-weight: normal;
+        font-size: 13px;
+      }
+        .signup-form input[type="checkbox"] {
+        margin-top: 2px;
+      }
+        .signup-form .btn {
+            font-size: 16px;
+            font-weight: bold;
+      background: #161df0;
+        border: none;
+        margin-top: 20px;
+        min-width: 140px;
+        }
+      /* .signup-form .btn:hover, .signup-form .btn:focus {
+        background: #41cba9;
+            outline: none !important;
+      } */
+        .signup-form a {
+        color: #2b04ff;
+  
+        text-decoration: underline;
+      }
+      .signup-form a:hover {
+        text-decoration: none;
+      }
+        .signup-form form a {
+        color: #5cd3b4;
+        text-decoration: none;
+      }
+      .signup-form form a:hover {
+        text-decoration: underline;
+      }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- partial:index.partial.html -->
+    <nav class="menu" tabindex="0" style="margin-top: 55px;">
+        <div class="smartphone-menu-trigger"></div>
+        <header class="avatar">
+            <img src="{% static "images/admin.png" %}" />
+            <br><br>
+            <h6>Admin</h6>
+            <h6>Welcome: {{user.username}} </h6>
+            <!-- <h2>{{request.user.first_name}}</h2> -->
+        </header>
+        <ul>
+          <li style="padding-left: 15px;" tabindex="0"><i style="margin-right: 8px; color: #fff;"
+                  class="fas fa-home"></i> <a style="color:white; text-decoration:none;"
+                  href="{% url 'admin_dashboard' %}"><span>Home</span></a> </li>
+          <li style="padding-left: 15px;" tabindex="0"><i style="margin-right: 8px; color: #fff;"
+                  class="fas fa-book"></i> <a style="color:white; text-decoration:none;"
+                  href="{% url 'book' %}"><span>Book</span></a></li>
+          <li style="padding-left: 15px;" tabindex="0"><i style="margin-right: 8px; color: #fff;"
+                  class="fas fa-book-open"></i><a style="color:white; text-decoration:none;"
+                  href="{% url 'issue_book' %}"><span>Issue Book</span></a></li>
+          <li style="padding-left: 15px;" tabindex="0"><i style="margin-right: 8px; color: #fff;"
+                  class="fas fa-users"></i><a style="color:white; text-decoration:none;"
+                  href="{% url 'student' %}"><span>Student Report</span></a></li>
+                  <li style="padding-left: 15px;" tabindex="0"><i style="margin-right: 8px; color: #fff;"
+                      class="fas fa-bell"></i><a style="color:white; text-decoration:none;"
+                      href="{% url 'return_book' %}"><span>Return Book</span></a></li>
+      </ul>
+    </nav>
+
+    <!-- <main style="background-color: #fff;"> -->
+
+
+        <!-- nav start -->
+        <div class="bs-example">
+            <nav class="navbar navbar-expand-md  navbar-dark fixed-top" style="background:#337AB7;">
+                <a href="{% url 'index' %}" class="navbar-brand">Library Management</a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav" style=" margin-left: 90%;">
+
+                        <a href="{% url 'logout' %}" class="nav-item nav-link">Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- nav end -->
+
+
+
+        <br><br>
+
+        <!-- content start-->
+        {% block content %}
+        <div class="signup-form">
+          <form  method="post" class="form-horizontal">
+  
+            <center><h2>Update Book</h2></center>
+  
+            {% csrf_token %}
+              {% for field in form %}
+              <div class="form-group">
+                <label class="control-label col-xs-4">{{ field.label_tag }}</label>
+                <div class="col-xs-8">
+                {{ field }}
+                 </div>
+              </div>
+              {% endfor %}
+  
+          <div class="form-group">
+            <div class="col-xs-8 col-xs-offset-4">
+              <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+            </div>
+          </div>
+          </form>
+      </div>
+     
+       
+
+        {% endblock content %}
+        <!-- content end-->
+
+        <br><br><br><br>
+        <!-- <footer>
+      <p>
+        <a id="ftr" href="https://facebook.com/sumit.luv/" class="fa fa-facebook"></a>
+        <a id="ftr" href="https://api.whatsapp.com/send?phone=919572181024&text=Hello%20Sumit.%0d%0aHow%20are%20you%20%3f%0d%0aI%20came%20from%20your%20website.&source=&data=#" class="fa fa-whatsapp"></a>
+        <a id="ftr" href="https://instagram.com/sumit.luv" class="fa fa-instagram"></a>
+        <a id="ftr" href="https://twitter.com/sumitkumar1503" class="fa fa-twitter"></a>
+      </p>
+
+      <br>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 col-sm-12">
+            <div style="color:#ffffff;" class="wow fadeInUp footer-copyright">
+              <p>Made in India <br>
+                Copyright &copy; 2020 LazyCoder </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer> -->
+
+    <!-- </main> -->
+    <!--
+  developed By : sumit kumar
+  facebook : fb.com/sumit.luv
+  youtube : youtube.com/lazycoders
+  -->
+
+</body>
+
+</html>
